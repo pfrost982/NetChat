@@ -2,50 +2,36 @@ package net_chat;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.util.Date;
 
 public class Controller {
     @FXML
     private ListView<String> listView;
 
-    @FXML
-    private TableView<RowWord> tableView;
+    private final ObservableList<String> participantList = FXCollections.observableArrayList(
+            "Александр", "Георгий", "Юрий", "Елена", "Ксения");
 
     @FXML
-    private TableColumn<RowWord, String> wordTableView;
-
-    @FXML
-    private TableColumn<RowWord, Integer> countTableView;
-
-    private final ObservableList<String> wordList = FXCollections.observableArrayList(
-            "Новый год", "Праздник", "Подарки", "Елка", "Украшения");
-
-    private final ObservableList<RowWord> frequencyByWord = FXCollections.observableArrayList(
-            new RowWord("a", 1),
-            new RowWord("b", 2),
-            new RowWord("c", 3)
-    );
+    private TextArea textArea;
 
     @FXML
     private TextField inputField;
 
     @FXML
     void initialize() {
-        listView.setItems(wordList);
-        tableView.setItems(frequencyByWord);
-        wordTableView.setCellValueFactory(new PropertyValueFactory<>("word"));
-        countTableView.setCellValueFactory(new PropertyValueFactory<>("count"));
+        listView.setItems(participantList);
     }
 
     @FXML
-    void sendMessage(ActionEvent event) {
+    void sendMessage() {
         String message = inputField.getText().trim();
         if (!message.isBlank()) {
-            addMessageToList(message);
-            addMessageToTable(message);
+            textArea.appendText(String.format("%1$td.%1$tm.%1$tY %1$tT", new Date()) + " @Я: \n");
+            textArea.appendText(message + "\n");
+
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Input error");
@@ -56,25 +42,8 @@ public class Controller {
         inputField.clear();
     }
 
-    private void addMessageToList(String message) {
-        listView.getItems().add(message);
-    }
-
-    private void addMessageToTable(String message) {
-        for (RowWord rowWord : frequencyByWord) {
-            if (message.equals(rowWord.getWord())) {
-                //rowWord.incCount();
-                int frequency = rowWord.getCount() + 1;
-                frequencyByWord.remove(rowWord);
-                frequencyByWord.add(new RowWord(message, frequency));
-                return;
-            }
-        }
-        frequencyByWord.add(new RowWord(message, 1));
-    }
-
     @FXML
-    void showAbout(ActionEvent event) {
+    void showAbout() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText("Сетевой чат");
@@ -83,20 +52,12 @@ public class Controller {
     }
 
     @FXML
-    void delete(ActionEvent event) {
-        if (listView.getItems().size() > 0) {
-            listView.getItems().remove(listView.getItems().size() - 1);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Delete error");
-            alert.setHeaderText("Ошибка удаления сообщения");
-            alert.setContentText("Нельзя удалять когда список сообщений пуст");
-            alert.show();
-        }
+    void delete() {
+        textArea.clear();
     }
 
     @FXML
-    void exit(ActionEvent event) {
+    void exit() {
         System.exit(0);
     }
 }
