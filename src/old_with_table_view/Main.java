@@ -1,4 +1,4 @@
-package net_chat;
+package old_with_table_view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

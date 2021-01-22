@@ -1,4 +1,4 @@
-package net_chat;
+package old_with_table_view;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
