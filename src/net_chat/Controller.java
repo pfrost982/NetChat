@@ -63,10 +63,11 @@ public class Controller {
     private void addMessageToTable(String message) {
         for (RowWord rowWord : frequencyByWord) {
             if (message.equals(rowWord.getWord())) {
-                //rowWord.incCount();
-                int frequency = rowWord.getCount() + 1;
-                frequencyByWord.remove(rowWord);
-                frequencyByWord.add(new RowWord(message, frequency));
+                rowWord.incCount();
+                //int frequency = rowWord.getCount() + 1;
+                //frequencyByWord.remove(rowWord);
+                //frequencyByWord.add(new RowWord(message, frequency));
+                tableView.refresh();
                 return;
             }
         }
