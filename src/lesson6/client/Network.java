@@ -35,6 +35,7 @@ public class Network {
             out = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             System.out.println("Соединение не установлено");
+            System.exit(-1);
             e.printStackTrace();
         }
     }
@@ -52,6 +53,7 @@ public class Network {
                 }
             } catch (IOException e) {
                 System.out.println("Ошибка подключения");
+                System.exit(-1);
             }
 
         });

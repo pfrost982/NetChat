@@ -38,7 +38,7 @@ public class ServerMain {
                 while (true) {
                     String message = in.readUTF();
                     System.out.println("\rПользователь говорит" + ": " + message);
-                    System.out.print("Введите сообщение: ");
+                    System.out.print("Сервер говорит: ");
                 }
             } catch (IOException e) {
                 clientSocket.close();
