@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Network {
+public class Network6 {
 
     private static final int DEFAULT_SERVER_SOCKET = 8888;
     private static final String DEFAULT_SERVER_HOST = "localhost";
@@ -17,12 +17,12 @@ public class Network {
     private final int port;
     private final String host;
 
-    public Network(String host, int port) {
+    public Network6(String host, int port) {
         this.port = port;
         this.host = host;
     }
 
-    public Network() {
+    public Network6() {
         this.host = DEFAULT_SERVER_HOST;
         this.port = DEFAULT_SERVER_SOCKET;
     }
@@ -44,7 +44,7 @@ public class Network {
         return out;
     }
 
-    public void waitMessage(ClientController Controller) {
+    public void waitMessage(ClientController6 Controller) {
         Thread thread = new Thread(() -> {
             try {
                 while (true) {

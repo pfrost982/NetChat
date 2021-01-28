@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.util.Date;
 
-public class ClientController {
+public class ClientController6 {
     @FXML
     private ListView<String> listView;
 
@@ -24,9 +24,9 @@ public class ClientController {
     @FXML
     private TextField inputField;
 
-    private Network network;
+    private Network6 network;
 
-    public void setNetwork(Network network) {
+    public void setNetwork(Network6 network) {
         this.network = network;
     }
 

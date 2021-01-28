@@ -6,20 +6,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ClientMain extends Application {
+public class ClientMain6 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ClientMain.class.getResource("clientChat.fxml"));
+        loader.setLocation(ClientMain6.class.getResource("clientChat.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Net chat");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
-        Network network = new Network();
+        Network6 network = new Network6();
         network.connect();
-        ClientController clientController = loader.getController();
+        ClientController6 clientController = loader.getController();
         clientController.setNetwork(network);
         network.waitMessage(clientController);
     }
