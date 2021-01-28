@@ -45,6 +45,11 @@ public class ClientController {
                 e.printStackTrace();
                 System.out.println("Ошибка при отправке сообщения");
             }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             appendMessage("Я", message);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -57,8 +62,11 @@ public class ClientController {
     }
 
     public synchronized void appendMessage(String who, String message) {
-        textArea.appendText(String.format("%1$td.%1$tm.%1$tY %1$tT", new Date()) + " @" + who + ": \n");
-        textArea.appendText(message + "\n");
+        Object o = new Object();
+        synchronized (o) {
+            textArea.appendText(String.format("%1$td.%1$tm.%1$tY %1$tT", new Date()) + " @" + who + ": \n");
+            textArea.appendText(message + "\n");
+        }
     }
 
     @FXML
