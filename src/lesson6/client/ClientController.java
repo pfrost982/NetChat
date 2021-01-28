@@ -56,7 +56,7 @@ public class ClientController {
         inputField.clear();
     }
 
-    public void appendMessage(String who, String message) {
+    public synchronized void appendMessage(String who, String message) {
         textArea.appendText(String.format("%1$td.%1$tm.%1$tY %1$tT", new Date()) + " @" + who + ": \n");
         textArea.appendText(message + "\n");
     }
