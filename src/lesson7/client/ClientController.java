@@ -1,5 +1,6 @@
 package lesson7.client;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -45,12 +46,7 @@ public class ClientController {
                 e.printStackTrace();
                 System.out.println("Ошибка при отправке сообщения");
             }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            appendMessage("Я", message);
+            Platform.runLater(() -> appendMessage("Я", message));
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Input error");
@@ -62,11 +58,8 @@ public class ClientController {
     }
 
     public synchronized void appendMessage(String who, String message) {
-        Object o = new Object();
-        synchronized (o) {
             textArea.appendText(String.format("%1$td.%1$tm.%1$tY %1$tT", new Date()) + " @" + who + ": \n");
             textArea.appendText(message + "\n");
-        }
     }
 
     @FXML

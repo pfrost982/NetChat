@@ -1,5 +1,7 @@
 package lesson7.client;
 
+import javafx.application.Platform;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -49,7 +51,7 @@ public class Network {
             try {
                 while (true) {
                     String message = in.readUTF();
-                    Controller.appendMessage("Сервер", message);
+                    Platform.runLater(() -> Controller.appendMessage("Сервер", message));
                 }
             } catch (IOException e) {
                 System.out.println("Ошибка подключения");

@@ -11,7 +11,7 @@ public class ClientApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ClientApp.class.getResource("clientChat.fxml"));
+        loader.setLocation(ClientApp.class.getResource("Chat.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Net chat");
         primaryStage.setScene(new Scene(root));

@@ -30,7 +30,7 @@ public class ClientHandler {
             this.socket = socket;
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
-            this.name = "";
+            this.name = "Unregistered";
             new Thread(() -> {
                 try {
                     authentication();
@@ -58,6 +58,7 @@ public class ClientHandler {
                         name = nick;
                         myServer.broadcastMsg(name + " зашел в чат", this);
                         myServer.subscribe(this);
+                        System.out.println(name + " авторизовался");
                         return;
                     } else {
                         sendMsg(AUTHERR_CMD_PREFIX + "Учетная запись уже используется");
@@ -94,6 +95,7 @@ public class ClientHandler {
     }
 
     public void closeConnection() {
+        System.out.println(this.name + " соединение закрыто");
         myServer.unsubscribe(this);
         myServer.broadcastMsg(name + " вышел из чата", this);
         try {
