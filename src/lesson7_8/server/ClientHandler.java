@@ -1,4 +1,4 @@
-package lesson7.server;
+package lesson7_8.server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -48,41 +48,36 @@ public class ClientHandler {
 
     public void authentication() throws IOException {
         while (true) {
-            String str = in.readUTF();
-            if (str.startsWith(AUTH_CMD_PREFIX)) {
-                String[] parts = str.split("\\s", 3);
-                String nick = myServer.getAuthService().getNickByLoginPass(parts[1], parts[2]);
-                if (nick != null) {
-                    if (!myServer.isNickBusy(nick)) {
-                        sendMsg(AUTHOK_CMD_PREFIX + " " + nick);
-                        name = nick;
-                        myServer.broadcastMsg(name + " зашел в чат", this);
-                        myServer.subscribe(this);
-                        System.out.println(name + " авторизовался");
-                        return;
-                    } else {
-                        sendMsg(AUTHERR_CMD_PREFIX + "Учетная запись уже используется");
-                    }
+            String strFromChat = in.readUTF();
+            String[] parts = strFromChat.split("\\s+", 3);
+            String nick = myServer.getAuthService().getNickByLoginPass(parts[1], parts[2]);
+            if (nick != null) {
+                if (!myServer.isNickBusy(nick)) {
+                    sendMsg(AUTHOK_CMD_PREFIX + " " + nick);
+                    name = nick;
+                    myServer.broadcastServerMsg(this.name + " авторизовался");
+                    myServer.subscribe(this);
+                    System.out.println(name + " авторизовался");
+                    return;
                 } else {
-                    sendMsg(AUTHERR_CMD_PREFIX + "Неверные логин/пароль");
+                    sendMsg(AUTHERR_CMD_PREFIX + " " + "Учетная запись уже используется");
                 }
-            }else {
-                sendMsg("Сначала авторизуйтесь командой /auth login password");
+            } else {
+                sendMsg(AUTHERR_CMD_PREFIX + " " + "Неверные логин/пароль");
             }
         }
     }
 
     public void waitMessage() throws IOException {
         while (true) {
-            String strFromClient = in.readUTF();
-            System.out.println("от " + name + ": " + strFromClient);
-            if (strFromClient.startsWith(END_CMD_PREFIX)) {
+            String strFromChat = in.readUTF();
+            System.out.println("от " + name + ": " + strFromChat);
+            if (strFromChat.startsWith(END_CMD_PREFIX)) {
                 return;
-            } else if (strFromClient.startsWith(PRIVATE_MSG_CMD_PREFIX)) {
-                String[] parts = strFromClient.split("\\s");
-                String msg = strFromClient.replace(parts[0] + " " + parts[1] + " ", "");
-                myServer.personalMsg(parts[1], msg, this);
-            } else myServer.broadcastMsg(strFromClient, this);
+            } else if (strFromChat.startsWith(PRIVATE_MSG_CMD_PREFIX)) {
+                String[] parts = strFromChat.split("\\s+", 3);
+                myServer.personalMsg(parts[1], parts[2], this);
+            } else myServer.broadcastClientMsg(strFromChat, this);
         }
     }
 
@@ -97,7 +92,7 @@ public class ClientHandler {
     public void closeConnection() {
         System.out.println(this.name + " соединение закрыто");
         myServer.unsubscribe(this);
-        myServer.broadcastMsg(name + " вышел из чата", this);
+        myServer.broadcastServerMsg(this.name + " вышел из чата");
         try {
             in.close();
         } catch (IOException e) {
