@@ -1,4 +1,4 @@
-package lesson7.server;
+package lesson7_8.server;
 
 import java.util.Objects;
 
